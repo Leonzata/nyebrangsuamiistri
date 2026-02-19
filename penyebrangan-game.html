@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penyebrangan Suami Istri</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #87CEEB;
+    --water: #1a6ba0;
+    --water-light: #2196f3;
+    --island: #5d9e3f;
+    --sand: #f5c842;
+    --boat: #8B4513;
+    --boat-light: #cd853f;
+    --s1: #e74c3c; --s1l: #ff6b6b;
+    --s2: #8e44ad; --s2l: #c39bd3;
+    --s3: #e67e22; --s3l: #f39c12;
+    --i1: #e91e8c; --i1l: #ff6dbe;
+    --i2: #9c27b0; --i2l: #ce93d8;
+    --i3: #ff5722; --i3l: #ff8a65;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(180deg, #87CEEB 0%, #b0e0f5 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    user-select: none;
+  }
+
+  h1 {
+    font-family: 'Fredoka One', cursive;
+    text-align: center;
+    font-size: 2rem;
+    color: #1a3a5c;
+    text-shadow: 2px 2px 0 rgba(255,255,255,0.6);
+    padding: 16px 0 4px;
+    letter-spacing: 1px;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #2c5f8a;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  /* TOP BAR */
+  .top-bar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 6px 20px;
+    flex-wrap: wrap;
+  }
+
+  .stat-box {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(4px);
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #1a3a5c;
+    border: 2px solid rgba(255,255,255,0.9);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .stat-box span { color: #e74c3c; }
+
+  /* GAME WORLD */
+  .game-world {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
+    padding: 10px 10px 0;
+    min-height: 340px;
+    position: relative;
+  }
+
+  /* ISLANDS */
+  .island {
+    background: linear-gradient(180deg, #6db843 0%, #4a8a30 100%);
+    border-radius: 16px 16px 4px 4px;
+    padding: 14px 10px 10px;
+    min-width: 200px;
+    max-width: 220px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2);
+    position: relative;
+    z-index: 2;
+  }
+
+  .island-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    margin-bottom: 8px;
+    background: rgba(0,0,0,0.2);
+    padding: 2px 14px;
+    border-radius: 20px;
+  }
+
+  .island-people {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    min-height: 80px;
+    align-content: flex-start;
+    padding: 4px;
+  }
+
+  /* RIVER */
+  .river {
+    flex: 1.2;
+    min-width: 160px;
+    max-width: 220px;
+    background: linear-gradient(180deg, var(--water-light) 0%, var(--water) 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wave {
+    position: absolute;
+    width: 200%;
+    height: 30px;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.15) 40px,
+      rgba(255,255,255,0.15) 80px
+    );
+    animation: waveMove 4s linear infinite;
+    border-radius: 50%;
+  }
+  .wave:nth-child(1) { top: 20%; animation-duration: 3s; }
+  .wave:nth-child(2) { top: 50%; animation-duration: 5s; animation-direction: reverse; opacity: 0.6; }
+  .wave:nth-child(3) { top: 75%; animation-duration: 4s; }
+
+  @keyframes waveMove {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* BOAT */
+  .boat-container {
+    position: absolute;
+    width: 110px;
+    transition: left 0.8s cubic-bezier(.68,-0.55,.27,1.55);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .boat-container.at-left { left: 10%; }
+  .boat-container.at-right { left: 80%; }
+
+  .boat-people {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    min-height: 36px;
+    margin-bottom: 2px;
+    flex-wrap: wrap;
+  }
+
+  .boat-svg {
+    width: 110px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+  }
+
+  /* PERSON */
+  .person {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 3px solid rgba(255,255,255,0.6);
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    position: relative;
+    font-size: 1.4rem;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    font-weight: 800;
+  }
+
+  .person:hover { transform: scale(1.08); }
+
+  .person.selected {
+    border-color: #FFD700;
+    box-shadow: 0 0 0 3px #FFD700, 0 3px 12px rgba(0,0,0,0.3);
+    transform: scale(1.12);
+  }
+
+  .person-label {
+    font-size: 0.62rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.95);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  .person.s1 { background: linear-gradient(135deg, var(--s1), var(--s1l)); }
+  .person.s2 { background: linear-gradient(135deg, var(--s2), var(--s2l)); }
+  .person.s3 { background: linear-gradient(135deg, var(--s3), var(--s3l)); }
+  .person.i1 { background: linear-gradient(135deg, var(--i1), var(--i1l)); }
+  .person.i2 { background: linear-gradient(135deg, var(--i2), var(--i2l)); }
+  .person.i3 { background: linear-gradient(135deg, var(--i3), var(--i3l)); }
+
+  .person-in-boat { width: 38px; height: 38px; font-size: 1rem; border-radius: 8px; }
+
+  /* CONTROLS */
+  .controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 12px 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    padding: 10px 24px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+    letter-spacing: 0.5px;
+  }
+
+  .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,0.2); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .btn-cross {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    color: white;
+    font-size: 1.1rem;
+    padding: 12px 32px;
+  }
+
+  .btn-return {
+    background: linear-gradient(135deg, #e67e22, #f39c12);
+    color: white;
+  }
+
+  .btn-reset {
+    background: linear-gradient(135deg, #95a5a6, #bdc3c7);
+    color: white;
+  }
+
+  .btn-hint {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+  }
+
+  /* MESSAGE */
+  .message-area {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 16px;
+  }
+
+  .message {
+    background: rgba(255,255,255,0.85);
+    border-radius: 20px;
+    padding: 8px 22px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #1a3a5c;
+    text-align: center;
+    backdrop-filter: blur(4px);
+    border: 2px solid rgba(255,255,255,0.9);
+    max-width: 500px;
+    animation: msgPop 0.3s ease;
+  }
+
+  .message.error { background: rgba(231,76,60,0.15); border-color: #e74c3c; color: #c0392b; }
+  .message.success { background: rgba(39,174,96,0.15); border-color: #27ae60; color: #1e8449; }
+  .message.info { background: rgba(52,152,219,0.15); border-color: #3498db; color: #1a5276; }
+
+  @keyframes msgPop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 4px 16px 16px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.7);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #1a3a5c;
+  }
+
+  .legend-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 800;
+  }
+
+  /* WIN OVERLAY */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .overlay.show { display: flex; }
+
+  .win-card {
+    background: linear-gradient(135deg, #fff9e6, #fff);
+    border-radius: 24px;
+    padding: 40px 50px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: winPop 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+    max-width: 380px;
+  }
+
+  @keyframes winPop {
+    from { transform: scale(0.5) rotate(-5deg); opacity: 0; }
+    to { transform: scale(1) rotate(0); opacity: 1; }
+  }
+
+  .win-emoji { font-size: 4rem; display: block; margin-bottom: 10px; }
+
+  .win-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    color: #1a3a5c;
+    margin-bottom: 8px;
+  }
+
+  .win-stats {
+    font-size: 1rem;
+    color: #555;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+
+  /* HISTORY */
+  .history-panel {
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(4px);
+    border-radius: 16px;
+    margin: 0 16px 16px;
+    padding: 12px 16px;
+    max-height: 140px;
+    overflow-y: auto;
+  }
+
+  .history-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.9rem;
+    color: #1a3a5c;
+    margin-bottom: 6px;
+  }
+
+  .history-item {
+    font-size: 0.78rem;
+    color: #2c5f8a;
+    font-weight: 600;
+    padding: 2px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .history-num {
+    background: #1a6ba0;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: 800;
+  }
+
+  /* RULES */
+  .rules-panel {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(4px);
+    border-radius: 16px;
+    margin: 0 16px 12px;
+    padding: 14px 18px;
+    border: 2px solid rgba(255,255,255,0.9);
+  }
+
+  .rules-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: #1a3a5c;
+    margin-bottom: 10px;
+  }
+
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 8px;
+  }
+
+  .rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 12px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255,255,255,0.9);
+  }
+
+  .rule-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .rule-head {
+    font-weight: 800;
+    font-size: 0.82rem;
+    color: #1a3a5c;
+    margin-bottom: 2px;
+  }
+
+  .rule-desc {
+    font-size: 0.76rem;
+    color: #3a5a7c;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .rule-desc strong { color: #e74c3c; }
+
+  @keyframes boatRock {
+    0%,100% { transform: translateX(-50%) rotate(-2deg); }
+    50% { transform: translateX(-50%) rotate(2deg); }
+  }
+
+  .boat-container { animation: boatRock 2s ease-in-out infinite; }
+  .boat-container.moving { animation: none; }
+</style>
+</head>
+<body>
+
+<h1>🚤 Penyebrangan Suami Istri</h1>
+<p class="subtitle">Seberangkan semua pasangan dari Pulau A ke Pulau B tanpa melanggar aturan!</p>
+
+<div class="top-bar">
+  <div class="stat-box">Langkah: <span id="stepCount">0</span></div>
+  <div class="stat-box">Di Perahu: <span id="boatCount">0</span>/2</div>
+  <div class="stat-box">Perahu di: <span id="boatPos">Pulau A</span></div>
+</div>
+
+<div class="game-world">
+  <!-- PULAU A -->
+  <div class="island" id="islandA">
+    <div class="island-label">🌴 Pulau A</div>
+    <div class="island-people" id="peopleA"></div>
+  </div>
+
+  <!-- SUNGAI -->
+  <div class="river">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="boat-container at-left" id="boatContainer">
+      <div class="boat-people" id="boatPeople"></div>
+      <svg class="boat-svg" viewBox="0 0 110 50" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 25 Q10 10 30 8 L80 8 Q100 10 105 25 L95 42 Q55 50 15 42 Z" fill="#8B4513"/>
+        <path d="M8 26 Q12 14 30 12 L80 12 Q98 14 102 26" fill="none" stroke="#cd853f" stroke-width="2"/>
+        <path d="M15 42 L95 42" stroke="#6b3410" stroke-width="2"/>
+        <ellipse cx="55" cy="10" rx="28" ry="5" fill="#a0522d" opacity="0.5"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- PULAU B -->
+  <div class="island" id="islandB">
+    <div class="island-label">🌴 Pulau B</div>
+    <div class="island-people" id="peopleB"></div>
+  </div>
+</div>
+
+<div class="message-area">
+  <div class="message info" id="messageBox">Pilih 1 atau 2 orang untuk naik perahu, lalu tekan Seberang!</div>
+</div>
+
+<div class="controls">
+  <button class="btn btn-cross" id="btnCross" onclick="crossRiver()">🚤 Seberang!</button>
+  <button class="btn btn-hint" onclick="showHint()">💡 Petunjuk</button>
+  <button class="btn btn-reset" onclick="resetGame()">🔄 Reset</button>
+</div>
+
+<div class="history-panel">
+  <div class="history-title">📜 Riwayat Perjalanan</div>
+  <div id="historyList"></div>
+</div>
+
+<!-- RULES -->
+<div class="rules-panel">
+  <div class="rules-title">📋 Aturan Permainan</div>
+  <div class="rules-grid">
+    <div class="rule-item">
+      <span class="rule-icon">🚤</span>
+      <div>
+        <div class="rule-head">Kapasitas Perahu</div>
+        <div class="rule-desc">Perahu hanya bisa membawa <strong>maksimal 2 orang</strong> setiap kali menyebrang.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <span class="rule-icon">👨‍❤️‍👩</span>
+      <div>
+        <div class="rule-head">Suami Pencemburu</div>
+        <div class="rule-desc">Istri <strong>tidak boleh</strong> berada bersama suami orang lain jika suaminya tidak ada di sisi yang sama.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <span class="rule-icon">🎯</span>
+      <div>
+        <div class="rule-head">Tujuan</div>
+        <div class="rule-desc">Seberangkan <strong>semua 6 orang</strong> (3 pasang) dari Pulau A ke Pulau B.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <span class="rule-icon">🏆</span>
+      <div>
+        <div class="rule-head">Solusi Optimal</div>
+        <div class="rule-desc">Permainan bisa diselesaikan dalam <strong>minimal 11 langkah</strong>. Bisakah kamu?</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <span class="rule-icon">🖱️</span>
+      <div>
+        <div class="rule-head">Cara Bermain</div>
+        <div class="rule-desc"><strong>Klik orang</strong> untuk memilih, lalu tekan <strong>Seberang!</strong> untuk menyebrang.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <span class="rule-icon">💡</span>
+      <div>
+        <div class="rule-head">Butuh Bantuan?</div>
+        <div class="rule-desc">Tekan tombol <strong>Petunjuk</strong> untuk mendapat petunjuk langkah berikutnya.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--s1)">S1</div> Suami 1</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--i1)">I1</div> Istri 1</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--s2)">S2</div> Suami 2</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--i2)">I2</div> Istri 2</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--s3)">S3</div> Suami 3</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--i3)">I3</div> Istri 3</div>
+  <div class="legend-item">🔑 Klik = pilih orang</div>
+</div>
+
+<!-- WIN OVERLAY -->
+<div class="overlay" id="winOverlay">
+  <div class="win-card">
+    <span class="win-emoji">🎉</span>
+    <div class="win-title">Berhasil!</div>
+    <div class="win-stats" id="winStats"></div>
+    <button class="btn btn-cross" onclick="resetGame(); document.getElementById('winOverlay').classList.remove('show')">Main Lagi!</button>
+  </div>
+</div>
+
+<script>
+const EMOJIS = { S1:'👨', S2:'👨', S3:'👨', I1:'👩', I2:'👩', I3:'👩' };
+const COUPLES = { S1:'I1', S2:'I2', S3:'I3', I1:'S1', I2:'S2', I3:'S3' };
+const HUSBANDS = ['S1','S2','S3'];
+const WIVES = ['I1','I2','I3'];
+
+const HINTS = [
+  "I1 + I2 naik perahu → Pulau B",
+  "I1 kembali ← Pulau A",
+  "I1 + I3 naik perahu → Pulau B",
+  "I2 kembali ← Pulau A",
+  "S1 + S3 naik perahu → Pulau B",
+  "S1 + I1 kembali ← Pulau A",
+  "S1 + S2 naik perahu → Pulau B",
+  "I3 kembali ← Pulau A",
+  "I1 + I2 naik perahu → Pulau B",
+  "I2 kembali ← Pulau A",
+  "I2 + I3 naik perahu → Pulau B 🎉"
+];
+
+let state = {
+  islandA: ['S1','I1','S2','I2','S3','I3'],
+  islandB: [],
+  boat: [],
+  boatSide: 'A', // 'A' or 'B'
+  selected: [],
+  steps: 0,
+  history: []
+};
+
+function render() {
+  renderIsland('A');
+  renderIsland('B');
+  renderBoat();
+  updateBoatPosition();
+  document.getElementById('stepCount').textContent = state.steps;
+  document.getElementById('boatCount').textContent = state.boat.length;
+  document.getElementById('boatPos').textContent = 'Pulau ' + state.boatSide;
+}
+
+function createPersonEl(id, location) {
+  const el = document.createElement('div');
+  const isWife = WIVES.includes(id);
+  el.className = `person ${id.toLowerCase()} ${location === 'boat' ? 'person-in-boat' : ''}`;
+  if (state.selected.includes(id)) el.classList.add('selected');
+  el.innerHTML = `${EMOJIS[id]}<div class="person-label">${id}</div>`;
+  el.onclick = () => toggleSelect(id, location);
+  el.title = `${isWife ? 'Istri' : 'Suami'} ${id.slice(1)} - Klik untuk pilih`;
+  return el;
+}
+
+function renderIsland(side) {
+  const container = document.getElementById(`people${side}`);
+  container.innerHTML = '';
+  state[`island${side}`].forEach(id => {
+    container.appendChild(createPersonEl(id, `island${side}`));
+  });
+}
+
+function renderBoat() {
+  const container = document.getElementById('boatPeople');
+  container.innerHTML = '';
+  state.boat.forEach(id => {
+    container.appendChild(createPersonEl(id, 'boat'));
+  });
+}
+
+function updateBoatPosition() {
+  const boat = document.getElementById('boatContainer');
+  boat.classList.remove('at-left','at-right');
+  boat.classList.add(state.boatSide === 'A' ? 'at-left' : 'at-right');
+}
+
+function toggleSelect(id, location) {
+  // Can only select from current boat side's island OR from boat
+  const currentIsland = `island${state.boatSide}`;
+  if (location !== currentIsland && location !== 'boat') {
+    showMessage('Orang ini tidak berada di sisi yang sama dengan perahu!', 'error');
+    return;
+  }
+
+  const idx = state.selected.indexOf(id);
+  if (idx !== -1) {
+    // Deselect
+    state.selected.splice(idx, 1);
+    if (location === 'boat') {
+      // Remove from boat back to island
+      state.boat.splice(state.boat.indexOf(id), 1);
+      state[currentIsland].push(id);
+    }
+  } else {
+    // Select
+    if (state.boat.length + (state.selected.includes(id) ? 0 : 1) > 2 && !state.boat.includes(id)) {
+      if (state.boat.length >= 2) {
+        showMessage('Perahu hanya muat 2 orang!', 'error');
+        return;
+      }
+    }
+    if (!state.boat.includes(id)) {
+      if (state.boat.length >= 2) {
+        showMessage('Perahu sudah penuh! Maksimal 2 orang.', 'error');
+        return;
+      }
+      // Move to boat
+      state[currentIsland].splice(state[currentIsland].indexOf(id), 1);
+      state.boat.push(id);
+    }
+    state.selected.push(id);
+  }
+
+  clearMessage();
+  render();
+}
+
+function isValid(islandA, islandB) {
+  // Check both sides
+  for (const side of [islandA, islandB]) {
+    for (const wife of WIVES) {
+      if (!side.includes(wife)) continue;
+      const husband = COUPLES[wife];
+      if (side.includes(husband)) continue; // husband is there, fine
+      // Wife is here without her husband. Check if any other husband is here
+      const otherHusbands = HUSBANDS.filter(h => h !== husband);
+      if (otherHusbands.some(h => side.includes(h))) {
+        return { valid: false, reason: `${wife} berada bersama suami orang lain tanpa suaminya (${husband})!` };
+      }
+    }
+  }
+  return { valid: true };
+}
+
+function crossRiver() {
+  if (state.boat.length === 0) {
+    showMessage('Pilih dulu siapa yang akan naik perahu!', 'error');
+    return;
+  }
+
+  const nextSide = state.boatSide === 'A' ? 'B' : 'A';
+  const nextIsland = `island${nextSide}`;
+  const currentIsland = `island${state.boatSide}`;
+
+  // Simulate move
+  const newIslandA = [...state.islandA];
+  const newIslandB = [...state.islandB];
+  const arrivals = [...state.boat];
+
+  // Add boat people to destination
+  if (nextSide === 'B') {
+    arrivals.forEach(p => newIslandB.push(p));
+  } else {
+    arrivals.forEach(p => newIslandA.push(p));
+  }
+
+  const check = isValid(newIslandA, newIslandB);
+  if (!check.valid) {
+    showMessage('❌ ' + check.reason, 'error');
+    return;
+  }
+
+  // Commit
+  const direction = state.boatSide === 'A' ? '→ Pulau B' : '← Pulau A';
+  const passengerStr = state.boat.join(' + ');
+  state.history.push(`${passengerStr} menyebrang ${direction}`);
+
+  state[nextIsland] = nextSide === 'B' ? newIslandB : newIslandA;
+  state[currentIsland] = nextSide === 'B' ? newIslandA : newIslandB;
+  state.boat = [];
+  state.selected = [];
+  state.boatSide = nextSide;
+  state.steps++;
+
+  const boat = document.getElementById('boatContainer');
+  boat.classList.add('moving');
+  setTimeout(() => boat.classList.remove('moving'), 900);
+
+  render();
+  updateHistory();
+  showMessage(`✅ ${passengerStr} berhasil menyebrang ${direction}`, 'success');
+
+  // Check win
+  if (state.islandB.length === 6) {
+    setTimeout(showWin, 800);
+  }
+}
+
+function updateHistory() {
+  const list = document.getElementById('historyList');
+  list.innerHTML = '';
+  state.history.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'history-item';
+    el.innerHTML = `<span class="history-num">${i+1}</span> ${item}`;
+    list.appendChild(el);
+  });
+  list.scrollTop = list.scrollHeight;
+}
+
+function showWin() {
+  document.getElementById('winStats').innerHTML =
+    `Selesai dalam <strong>${state.steps} langkah</strong>!<br>
+    ${state.steps <= 11 ? '🏆 Sempurna! Solusi optimal!' : '🎯 Bagus! Coba capai 11 langkah!'}`;
+  document.getElementById('winOverlay').classList.add('show');
+}
+
+function showHint() {
+  const hintIdx = state.steps < HINTS.length ? state.steps : HINTS.length - 1;
+  showMessage('💡 Petunjuk: ' + HINTS[hintIdx], 'info');
+}
+
+function showMessage(msg, type = '') {
+  const box = document.getElementById('messageBox');
+  box.textContent = msg;
+  box.className = `message ${type}`;
+}
+
+function clearMessage() {
+  document.getElementById('messageBox').textContent = 'Pilih 1 atau 2 orang untuk naik perahu, lalu tekan Seberang!';
+  document.getElementById('messageBox').className = 'message info';
+}
+
+function resetGame() {
+  state = {
+    islandA: ['S1','I1','S2','I2','S3','I3'],
+    islandB: [],
+    boat: [],
+    boatSide: 'A',
+    selected: [],
+    steps: 0,
+    history: []
+  };
+  render();
+  updateHistory();
+  clearMessage();
+}
+
+// Init
+render();
+</script>
+</body>
+</html>
